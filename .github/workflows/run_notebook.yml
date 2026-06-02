@@ -39,6 +39,34 @@ jobs:
             --output-dir dataset \
             dataset/hr_analysis.ipynb
 
+      - name: Profile SQLite database
+        run: |
+          DB=dataset/hr.db
+          mkdir -p outputs
+
+          sqlite3 $DB ".tables"                        > outputs/db_tables.txt
+          sqlite3 $DB ".schema"                        > outputs/db_schema.txt
+          sqlite3 $DB ".indexes"                       > outputs/db_indexes.txt
+
+          sqlite3 $DB "
+            SELECT name, (SELECT COUNT(*) FROM main.' || name || ') AS row_count
+            FROM sqlite_master WHERE type='table' ORDER BY name;
+          " 2>/dev/null || \
+          sqlite3 -header -csv $DB "
+            SELECT 'employees'    AS tbl, COUNT(*) AS rows FROM employees    UNION ALL
+            SELECT 'departments',         COUNT(*)         FROM departments   UNION ALL
+            SELECT 'dept_emp',            COUNT(*)         FROM dept_emp      UNION ALL
+            SELECT 'dept_manager',        COUNT(*)         FROM dept_manager  UNION ALL
+            SELECT 'salaries',            COUNT(*)         FROM salaries      UNION ALL
+            SELECT 'titles',              COUNT(*)         FROM titles        UNION ALL
+            SELECT 'analysis_flat',       COUNT(*)         FROM analysis_flat;
+          " > outputs/db_row_counts.csv
+
+          sqlite3 -header -csv $DB "PRAGMA database_list;"    > outputs/db_pragma_database.csv
+          sqlite3 -header -csv $DB "PRAGMA integrity_check;"  > outputs/db_integrity_check.txt
+
+          echo "SQLite profiling complete"
+
       - name: Commit outputs back to repo
         run: |
           git config user.name  "github-actions[bot]"
