@@ -35,11 +35,8 @@ jobs:
             --to notebook \
             --execute \
             --ExecutePreprocessor.timeout=300 \
-            --output hr_analysis_executed.ipynb \
+            --output dataset/hr_analysis_executed.ipynb \
             dataset/hr_analysis.ipynb
-
-      - name: Move executed notebook into dataset/
-        run: mv hr_analysis_executed.ipynb dataset/hr_analysis_executed.ipynb
 
       - name: Commit outputs back to repo
         run: |
