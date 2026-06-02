@@ -44,5 +44,7 @@ CREATE TABLE IF NOT EXISTS "analysis_flat" (
   "salary" INTEGER,
   "age_at_hire" REAL,
   "tenure_years" REAL,
-  "gender_binary" INTEGER
+  "gender_binary" INTEGER,
+  "log_salary" REAL,
+  "log10_salary" REAL
 );

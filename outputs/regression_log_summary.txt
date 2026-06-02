@@ -1,0 +1,40 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:             log_salary   R-squared:                       0.357
+Model:                            OLS   Adj. R-squared:                  0.355
+Method:                 Least Squares   F-statistic:                     229.9
+Date:                Tue, 02 Jun 2026   Prob (F-statistic):               0.00
+Time:                        02:32:24   Log-Likelihood:                 1584.9
+No. Observations:                6652   AIC:                            -3136.
+Df Residuals:                    6635   BIC:                            -3020.
+Df Model:                          16                                         
+Covariance Type:            nonrobust                                         
+======================================================================================================
+                                         coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------
+Intercept                             10.8173      0.037    296.093      0.000      10.746      10.889
+C(dept_name)[T.Development]            0.0092      0.014      0.646      0.518      -0.019       0.037
+C(dept_name)[T.Finance]                0.1434      0.014     10.524      0.000       0.117       0.170
+C(dept_name)[T.Human Resources]       -0.0350      0.013     -2.637      0.008      -0.061      -0.009
+C(dept_name)[T.Marketing]              0.1753      0.013     13.330      0.000       0.150       0.201
+C(dept_name)[T.Production]             0.0123      0.014      0.864      0.388      -0.016       0.040
+C(dept_name)[T.Quality Management]    -0.0152      0.017     -0.912      0.362      -0.048       0.018
+C(dept_name)[T.Research]               0.0186      0.013      1.435      0.151      -0.007       0.044
+C(dept_name)[T.Sales]                  0.2834      0.011     26.533      0.000       0.263       0.304
+C(title)[T.Engineer]                   0.0173      0.020      0.885      0.376      -0.021       0.056
+C(title)[T.Senior Engineer]            0.1638      0.019      8.612      0.000       0.127       0.201
+C(title)[T.Senior Staff]               0.1435      0.023      6.335      0.000       0.099       0.188
+C(title)[T.Staff]                      0.0081      0.023      0.345      0.730      -0.038       0.054
+C(title)[T.Technique Leader]           0.1174      0.021      5.583      0.000       0.076       0.159
+tenure_years                           0.0157      0.001     16.347      0.000       0.014       0.018
+age_at_hire                           -0.0011      0.001     -1.775      0.076      -0.002       0.000
+gender_binary                         -0.0020      0.005     -0.426      0.670      -0.011       0.007
+==============================================================================
+Omnibus:                        8.247   Durbin-Watson:                   2.025
+Prob(Omnibus):                  0.016   Jarque-Bera (JB):                8.252
+Skew:                           0.086   Prob(JB):                       0.0162
+Kurtosis:                       3.004   Cond. No.                         746.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
