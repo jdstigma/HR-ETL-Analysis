@@ -1,5 +1,0 @@
-,dtype,nulls,null_pct,unique,sample
-emp_no,int64,0,0.0,142396,10001
-dept_no,str,0,0.0,9,d005
-from_date,str,0,0.0,6378,1986-06-26
-to_date,str,0,0.0,5780,9999-01-01
