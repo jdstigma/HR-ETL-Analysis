@@ -20,8 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pandas numpy matplotlib seaborn statsmodels nbconvert jupyter ipykernel
+          pip install pandas numpy matplotlib seaborn statsmodels nbconvert jupyter ipykernel nbformat
           python -m ipykernel install --user --name python3
+
+      - name: Normalize notebook cell IDs
+        run: python -c "import nbformat; nb = nbformat.read('dataset/hr_analysis.ipynb', as_version=4); nbformat.validate(nb); nbformat.write(nb, 'dataset/hr_analysis.ipynb')"
 
       - name: Execute notebook
         run: |
@@ -29,7 +32,7 @@ jobs:
             --to notebook \
             --execute \
             --ExecutePreprocessor.timeout=300 \
-            --output dataset/hr_analysis_executed.ipynb \
+            --output hr_analysis_executed.ipynb \
             dataset/hr_analysis.ipynb
 
       - name: Upload executed notebook
