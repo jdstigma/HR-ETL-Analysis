@@ -9,6 +9,9 @@ jobs:
   run-notebook:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -35,13 +38,18 @@ jobs:
             --output hr_analysis_executed.ipynb \
             dataset/hr_analysis.ipynb
 
-      - name: Upload executed notebook
-        uses: actions/upload-artifact@v4
-        with:
-          name: hr-analysis-output
-          path: dataset/hr_analysis_executed.ipynb
+      - name: Move executed notebook into dataset/
+        run: mv hr_analysis_executed.ipynb dataset/hr_analysis_executed.ipynb
 
-      - name: Upload hr.db
+      - name: Commit outputs back to repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dataset/hr_analysis_executed.ipynb dataset/outputs/
+          git diff --cached --quiet || git commit -m "ci: update executed notebook and outputs [skip ci]"
+          git push
+
+      - name: Upload hr.db artifact
         uses: actions/upload-artifact@v4
         with:
           name: hr-database
