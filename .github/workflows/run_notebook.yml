@@ -61,14 +61,30 @@ jobs:
           sqlite3 -header -csv $DB "PRAGMA database_list;"   > "Simple Profile/db_pragma_database.csv"
           sqlite3 -header -csv $DB "PRAGMA integrity_check;" > "Simple Profile/db_integrity_check.txt"
 
-          echo "SQLite profiling complete"
+      - name: Run SQL Scripts
+        run: |
+          DB=dataset/hr.db
+          mkdir -p "Query Results"
+          mkdir -p "Cleaned Data"
+
+          for script in SQL\ Scripts/query_*.sql; do
+            name=$(basename "$script" .sql)
+            echo "Running $script → Query Results/${name}.csv"
+            sqlite3 -header -csv $DB < "$script" > "Query Results/${name}.csv"
+          done
+
+          for script in SQL\ Scripts/table_*.sql; do
+            name=$(basename "$script" .sql)
+            echo "Running $script → Cleaned Data/${name}.csv"
+            sqlite3 -header -csv $DB < "$script" > "Cleaned Data/${name}.csv"
+          done
 
       - name: Commit outputs back to repo
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dataset/hr_analysis_executed.ipynb outputs/ "Simple Profile/"
-          git diff --cached --quiet || git commit -m "ci: update executed notebook, outputs, and simple profile [skip ci]"
+          git add dataset/hr_analysis_executed.ipynb outputs/ "Simple Profile/" "Query Results/" "Cleaned Data/"
+          git diff --cached --quiet || git commit -m "ci: update executed notebook, outputs, and query results [skip ci]"
           git push
 
       - name: Upload hr.db artifact
