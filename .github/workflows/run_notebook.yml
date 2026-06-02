@@ -1,0 +1,45 @@
+name: Run HR Analysis Notebook
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy matplotlib seaborn statsmodels nbconvert jupyter ipykernel
+          python -m ipykernel install --user --name python3
+
+      - name: Execute notebook
+        run: |
+          jupyter nbconvert \
+            --to notebook \
+            --execute \
+            --ExecutePreprocessor.timeout=300 \
+            --output dataset/hr_analysis_executed.ipynb \
+            dataset/hr_analysis.ipynb
+
+      - name: Upload executed notebook
+        uses: actions/upload-artifact@v4
+        with:
+          name: hr-analysis-output
+          path: dataset/hr_analysis_executed.ipynb
+
+      - name: Upload hr.db
+        uses: actions/upload-artifact@v4
+        with:
+          name: hr-database
+          path: dataset/hr.db
