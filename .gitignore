@@ -1,0 +1,11 @@
+# SQLite database
+dataset/hr.db
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
