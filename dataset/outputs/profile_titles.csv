@@ -1,0 +1,5 @@
+,dtype,nulls,null_pct,unique,sample
+emp_no,int64,0,0.0,33458,10001
+title,str,1,0.0,6,Senior Engineer
+from_date,str,1,0.0,6367,1986-06-26
+to_date,str,1,0.0,4725,9999-01-01

@@ -1,0 +1,5 @@
+,dtype,nulls,null_pct,unique,sample
+emp_no,int64,0,0.0,24,110022
+dept_no,str,0,0.0,9,d001
+from_date,str,0,0.0,16,1985-01-01
+to_date,str,0,0.0,16,1991-10-01

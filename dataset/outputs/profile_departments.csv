@@ -1,0 +1,3 @@
+,dtype,nulls,null_pct,unique,sample
+dept_no,str,0,0.0,9,d009
+dept_name,str,0,0.0,9,Customer Service

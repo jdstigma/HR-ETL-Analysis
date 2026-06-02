@@ -1,0 +1,7 @@
+,dtype,nulls,null_pct,unique,sample
+emp_no,int64,0,0.0,300024,10001
+birth_date,str,0,0.0,4750,1953-09-02
+first_name,str,0,0.0,1275,Georgi
+last_name,str,0,0.0,1637,Facello
+gender,str,0,0.0,2,M
+hire_date,str,0,0.0,5434,1986-06-26

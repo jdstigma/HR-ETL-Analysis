@@ -1,0 +1,9 @@
+table,column,min,max,unparseable
+employees,birth_date,1952-02-01,1965-02-01,0
+employees,hire_date,1985-01-01,2000-01-28,0
+salaries,from_date,1985-02-02,2002-08-01,0
+salaries,to_date,1985-08-08,9999-01-01,1
+titles,from_date,1985-02-02,2002-08-01,1
+titles,to_date,1985-03-01,9999-01-01,1
+dept_emp,from_date,1985-01-01,2002-08-01,0
+dept_emp,to_date,1985-02-17,9999-01-01,1
