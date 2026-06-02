@@ -43,7 +43,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dataset/hr_analysis_executed.ipynb dataset/outputs/
+          git add dataset/hr_analysis_executed.ipynb outputs/
           git diff --cached --quiet || git commit -m "ci: update executed notebook and outputs [skip ci]"
           git push
 
