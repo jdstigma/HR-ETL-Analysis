@@ -67,6 +67,8 @@ jobs:
           mkdir -p "Query Results"
           mkdir -p "Cleaned Data"
 
+          shopt -s nullglob
+
           for script in SQL\ Scripts/query_*.sql; do
             name=$(basename "$script" .sql)
             echo "Running $script → Query Results/${name}.csv"
