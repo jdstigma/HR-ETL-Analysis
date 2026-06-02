@@ -42,16 +42,12 @@ jobs:
       - name: Profile SQLite database
         run: |
           DB=dataset/hr.db
-          mkdir -p outputs
+          mkdir -p "Simple Profile"
 
-          sqlite3 $DB ".tables"                        > outputs/db_tables.txt
-          sqlite3 $DB ".schema"                        > outputs/db_schema.txt
-          sqlite3 $DB ".indexes"                       > outputs/db_indexes.txt
+          sqlite3 $DB ".tables"                       > "Simple Profile/db_tables.txt"
+          sqlite3 $DB ".schema"                       > "Simple Profile/db_schema.txt"
+          sqlite3 $DB ".indexes"                      > "Simple Profile/db_indexes.txt"
 
-          sqlite3 $DB "
-            SELECT name, (SELECT COUNT(*) FROM main.' || name || ') AS row_count
-            FROM sqlite_master WHERE type='table' ORDER BY name;
-          " 2>/dev/null || \
           sqlite3 -header -csv $DB "
             SELECT 'employees'    AS tbl, COUNT(*) AS rows FROM employees    UNION ALL
             SELECT 'departments',         COUNT(*)         FROM departments   UNION ALL
@@ -60,10 +56,10 @@ jobs:
             SELECT 'salaries',            COUNT(*)         FROM salaries      UNION ALL
             SELECT 'titles',              COUNT(*)         FROM titles        UNION ALL
             SELECT 'analysis_flat',       COUNT(*)         FROM analysis_flat;
-          " > outputs/db_row_counts.csv
+          " > "Simple Profile/db_row_counts.csv"
 
-          sqlite3 -header -csv $DB "PRAGMA database_list;"    > outputs/db_pragma_database.csv
-          sqlite3 -header -csv $DB "PRAGMA integrity_check;"  > outputs/db_integrity_check.txt
+          sqlite3 -header -csv $DB "PRAGMA database_list;"   > "Simple Profile/db_pragma_database.csv"
+          sqlite3 -header -csv $DB "PRAGMA integrity_check;" > "Simple Profile/db_integrity_check.txt"
 
           echo "SQLite profiling complete"
 
@@ -71,8 +67,8 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dataset/hr_analysis_executed.ipynb outputs/
-          git diff --cached --quiet || git commit -m "ci: update executed notebook and outputs [skip ci]"
+          git add dataset/hr_analysis_executed.ipynb outputs/ "Simple Profile/"
+          git diff --cached --quiet || git commit -m "ci: update executed notebook, outputs, and simple profile [skip ci]"
           git push
 
       - name: Upload hr.db artifact
