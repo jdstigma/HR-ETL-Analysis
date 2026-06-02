@@ -1,0 +1,48 @@
+CREATE TABLE IF NOT EXISTS "employees" (
+"emp_no" INTEGER,
+  "birth_date" TEXT,
+  "first_name" TEXT,
+  "last_name" TEXT,
+  "gender" TEXT,
+  "hire_date" TEXT
+);
+CREATE TABLE IF NOT EXISTS "departments" (
+"dept_no" TEXT,
+  "dept_name" TEXT
+);
+CREATE TABLE IF NOT EXISTS "dept_emp" (
+"emp_no" INTEGER,
+  "dept_no" TEXT,
+  "from_date" TEXT,
+  "to_date" TEXT
+);
+CREATE TABLE IF NOT EXISTS "dept_manager" (
+"emp_no" INTEGER,
+  "dept_no" TEXT,
+  "from_date" TEXT,
+  "to_date" TEXT
+);
+CREATE TABLE IF NOT EXISTS "salaries" (
+"emp_no" INTEGER,
+  "salary" INTEGER,
+  "from_date" TEXT,
+  "to_date" TEXT
+);
+CREATE TABLE IF NOT EXISTS "titles" (
+"emp_no" INTEGER,
+  "title" TEXT,
+  "from_date" TEXT,
+  "to_date" TEXT
+);
+CREATE TABLE IF NOT EXISTS "analysis_flat" (
+"emp_no" INTEGER,
+  "gender" TEXT,
+  "birth_date" TIMESTAMP,
+  "hire_date" TIMESTAMP,
+  "dept_name" TEXT,
+  "title" TEXT,
+  "salary" INTEGER,
+  "age_at_hire" REAL,
+  "tenure_years" REAL,
+  "gender_binary" INTEGER
+);
