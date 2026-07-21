@@ -1,6 +1,25 @@
 # HR-ETL-Analysis
 
-End-to-end HR data pipeline built on the classic MySQL employees dataset. Raw CSVs are loaded into a SQLite database, profiled and analyzed in Python, and exported as structured outputs for use in Power BI.
+End-to-end HR data pipeline built on the classic MySQL employees dataset. Raw CSVs
+are loaded into a SQLite database, profiled and analyzed in Python, exported as
+structured tables, and surfaced in an interactive **Power BI** report.
+
+---
+
+## 📊 Power BI Report
+
+**[⬇ Download the report — `Employee-Profiling-Year-to-Year.pbix`](https://github.com/jdstigma/HR-ETL-Analysis/releases/latest)**
+&nbsp;·&nbsp; [All releases](https://github.com/jdstigma/HR-ETL-Analysis/releases)
+
+`Employee Profiling: Year to Year` visualizes employee demographics, salary, tenure,
+promotions, and department makeup across the dataset's timeline. Grab it from the
+[latest release](https://github.com/jdstigma/HR-ETL-Analysis/releases/latest) and
+open it in **Power BI Desktop** — the data model is embedded, so it opens and
+renders with no connection or refresh required.
+
+> The `.pbix` is distributed via **Releases** (not the repo tree) because it's a
+> ~57 MB binary. To reproduce or extend it against live data, use the Python
+> connector described in [Power BI Integration](#power-bi-integration) below.
 
 ---
 
@@ -34,6 +53,8 @@ HR-ETL-Analysis/
 ├── Simple Profile/                 # SQLite dot command outputs
 └── powerbi_connector.py            # Power BI Python data connector
 ```
+
+The Power BI report itself lives in [Releases](https://github.com/jdstigma/HR-ETL-Analysis/releases), not in the tree.
 
 ---
 
@@ -95,9 +116,15 @@ The GitHub Action (`run_notebook.yml`) runs automatically on every push to `main
 
 ## Power BI Integration
 
-`powerbi_connector.py` at the repo root loads all 22 CSV tables directly from GitHub raw URLs into Power BI via Python script connector.
+There are two ways to work with this project in Power BI:
 
-**Steps:**
+**1. Open the finished report** — download `Employee-Profiling-Year-to-Year.pbix`
+from the [latest release](https://github.com/jdstigma/HR-ETL-Analysis/releases/latest)
+and open it in Power BI Desktop. Data is embedded; nothing else required.
+
+**2. Build from live data** — `powerbi_connector.py` at the repo root loads all 22
+CSV tables directly from GitHub raw URLs into Power BI via the Python script connector:
+
 1. Power BI Desktop → Get Data → Python script
 2. Paste the contents of `powerbi_connector.py`
 3. Select tables from the navigator
