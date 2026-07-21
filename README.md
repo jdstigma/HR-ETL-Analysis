@@ -85,6 +85,71 @@ The GitHub Action (`run_notebook.yml`) runs automatically on every push to `main
 3. Runs all SQL scripts in `SQL Scripts/`
 4. Commits all outputs back to the repo
 
+So the outputs in this repo stay current automatically — the steps below reproduce the same pipeline locally.
+
+---
+
+## Recreate This Project
+
+**Prerequisites:** Python 3.11+, the `sqlite3` command-line tool (for the CSV export
+steps), and — to open or rebuild the report — Power BI Desktop (Windows).
+
+**1. Clone and enter the repo**
+```bash
+git clone https://github.com/jdstigma/HR-ETL-Analysis.git
+cd HR-ETL-Analysis
+```
+
+**2. Set up a Python environment and install dependencies**
+```bash
+python -m venv .venv
+# Windows (PowerShell): .venv\Scripts\Activate.ps1
+# macOS/Linux:          source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+**3. Build the database and run the analysis.** Executing the notebook loads the CSVs
+in `dataset/` into a fresh SQLite database (`dataset/hr.db`) and runs the profiling,
+EDA, and OLS regression:
+```bash
+jupyter nbconvert --to notebook --execute \
+  --ExecutePreprocessor.timeout=300 \
+  --output hr_analysis_executed.ipynb --output-dir dataset \
+  dataset/hr_analysis.ipynb
+```
+> `dataset/hr.db` is git-ignored, so it's always rebuilt from the CSVs here.
+
+**4. Regenerate the query outputs** the report reads from. In Git Bash / macOS / Linux:
+```bash
+for f in "SQL Scripts"/query_*.sql; do
+  sqlite3 -header -csv dataset/hr.db < "$f" > "Query Results/$(basename "$f" .sql).csv"
+done
+for f in "SQL Scripts"/table_*.sql; do
+  sqlite3 -header -csv dataset/hr.db < "$f" > "Cleaned Data/$(basename "$f" .sql).csv"
+done
+```
+In PowerShell:
+```powershell
+Get-ChildItem "SQL Scripts/query_*.sql" | ForEach-Object {
+  sqlite3 -header -csv dataset/hr.db ".read '$($_.FullName)'" > "Query Results/$($_.BaseName).csv"
+}
+Get-ChildItem "SQL Scripts/table_*.sql" | ForEach-Object {
+  sqlite3 -header -csv dataset/hr.db ".read '$($_.FullName)'" > "Cleaned Data/$($_.BaseName).csv"
+}
+```
+
+**5. Open or rebuild the Power BI report**
+- **Fastest:** download `Employee-Profiling-Year-to-Year.pbix` from the
+  [latest release](https://github.com/jdstigma/HR-ETL-Analysis/releases/latest) and
+  open it in Power BI Desktop — the data is embedded, no refresh needed.
+- **From scratch:** Power BI Desktop → Get Data → Python script → paste
+  `powerbi_connector.py` → select the tables → build visuals (see the relationships
+  in [Power BI Integration](#power-bi-integration)).
+
+> Prefer to skip local setup? Push to `main` (or run the **Run HR Analysis Notebook**
+> workflow via *Actions → Run workflow*) and the CI does steps 3–4 for you, committing
+> the refreshed outputs back to the repo.
+
 ---
 
 ## Analysis Summary
